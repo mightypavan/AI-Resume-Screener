@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Resume Screener</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="dark-icon" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+        <span id="darkModeIcon">🌙</span>
+    </div>
+    <div class="container center" style="text-align: center;">
+        <h1>Welcome to AI Resume Screener</h1>
+        <p>This tool helps you evaluate resumes against job descriptions using AI.</p>
+        <div class="landing-buttons" style="text-align: center; padding-top:10px">
+            <a href="{{ url_for('screener') }}" class="nav-button" style="text-decoration:none;">Start Screening</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

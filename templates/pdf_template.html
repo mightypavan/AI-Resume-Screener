@@ -1,0 +1,48 @@
+<!-- templates/pdf_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ job_role }} Screening Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2, h3 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .matched { color: green; }
+        .missing { color: red; }
+        .summary { margin-top: 5px; font-style: italic; color: #555; }
+    </style>
+</head>
+<body>
+    <h1>{{ job_role }} Resume Screening Report</h1>
+    <p><strong>Date:</strong> {{ screening_date }}</p>
+    <p><strong>Job Description:</strong></p>
+    <p>{{ job_desc }}</p>
+
+    <h2>Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Resume</th>
+                <th>Match Score (%)</th>
+                <th>Matched Keywords</th>
+                <th>Missing Keywords</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in results %}
+            <tr>
+                <td>{{ r.name }}</td>
+                <td>{{ r.score }}</td>
+                <td class="matched">{{ r.matched }}</td>
+                <td class="missing">{{ r.missing }}</td>
+                <td class="summary">{{ r.summary }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

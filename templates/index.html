@@ -1,0 +1,91 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Resume Screener</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="dark-icon" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+        <span id="darkModeIcon">🌙</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>AI Resume Screener</h1>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" id="uploadForm">
+            <label for="job_desc">Job Description:</label>
+            <textarea name="job_desc" id="job_desc" rows="8" required>{{ job_desc }}</textarea>
+
+            <label for="resumes">Upload Resumes (PDF only):</label>
+            <input type="file" id="resumes" name="resumes" multiple required>
+            <progress id="progressBar" value="0" max="100" style="width:100%; display:none;"></progress>
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if results %}
+        <div class="results-section">
+            <button onclick="toggleResults()">Toggle Results</button>
+            <div id="resultsBox" style="display:none;">
+                <h3>Results:</h3>
+                <table>
+                    <thead>
+                        <tr><th>Resume</th><th>Match Score (%)</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for r in results %}
+                        <tr><td>{{ r.name }}</td><td>{{ r.score }}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="download-buttons">
+                    <form method="post" action="/download-pdf" target="_blank">
+                        <input type="hidden" name="job_desc" value="{{ job_desc | e }}">
+                        <input type="hidden" name="job_role" value="{{ job_role | e }}">
+                        {% for r in results %}
+                        <input type="hidden" name="results[]" value="{{ r.name }} - {{ r.score }}">
+                        <input type="hidden" name="texts[]" value="{{ r.name }}:::{{ r.summary | replace('\n', ' ') | replace('\r', '') | e }}">
+                        <input type="hidden" name="summaries[]" value="{{ r.summary | e }}">
+                        <input type="hidden" name="keywords_matched[]" value="{{ r.matched | e }}">
+                        <input type="hidden" name="keywords_missing[]" value="{{ r.missing | e }}">
+                        {% endfor %}
+                        <button type="submit">Download PDF</button>
+                    </form>
+
+                    <form method="post" action="/download-csv">
+                        <input type="hidden" name="job_role" value="{{ job_role }}">
+                        {% for r in results %}
+                        <input type="hidden" name="results[]" value="{{ r.name }} - {{ r.score }}">
+                        <input type="hidden" name="texts[]" value="{{ r.name }}:::{{ r.summary | replace('\n', ' ') | replace('\r', '') }}">
+                        <input type="hidden" name="summaries[]" value="{{ r.summary }}">
+                        <input type="hidden" name="keywords_matched[]" value="{{ r.matched }}">
+                        <input type="hidden" name="keywords_missing[]" value="{{ r.missing }}">
+                        {% endfor %}
+                        <button type="submit">Download CSV</button>
+                    </form>
+
+
+                    <form method="post" action="/download-xlsx">
+                        <input type="hidden" name="job_role" value="{{ job_role }}">
+                        {% for r in results %}
+                        <input type="hidden" name="results[]" value="{{ r.name }} - {{ r.score }}">
+                        <input type="hidden" name="texts[]" value="{{ r.name }}:::{{ r.summary | replace('\n', ' ') | replace('\r', '') }}">
+                        <input type="hidden" name="summaries[]" value="{{ r.summary }}">
+                        <input type="hidden" name="keywords_matched[]" value="{{ r.matched }}">
+                        <input type="hidden" name="keywords_missing[]" value="{{ r.missing }}">
+                        {% endfor %}
+                        <button type="submit">Download XLSX</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

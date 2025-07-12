@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+venv/
+env/
+
+# Environment files
+.env
+
+# Upload folders / temp files
+uploads/
+*.log
+*.bak
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+
+# PDF/Excel/CSV generated exports
+*.pdf
+*.xlsx
+*.csv
