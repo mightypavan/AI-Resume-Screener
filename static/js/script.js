@@ -51,3 +51,23 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+// ...existing code...
+
+// Sync dark mode across tabs/windows
+window.addEventListener("storage", function (e) {
+    if (e.key === "dark-mode") {
+        const isDark = e.newValue === "true";
+        const body = document.body;
+        const icon = document.getElementById("darkModeIcon");
+        if (isDark) {
+            body.classList.add("dark-mode");
+            if (icon) icon.textContent = "☀️";
+        } else {
+            body.classList.remove("dark-mode");
+            if (icon) icon.textContent = "🌙";
+        }
+    }
+});
+
+// ...existing code...

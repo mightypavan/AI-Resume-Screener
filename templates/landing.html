@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <title>AI Resume Screener</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+        if (localStorage.getItem("dark-mode") === "true") {
+            document.addEventListener("DOMContentLoaded", function() {
+                document.body.classList.add("dark-mode");
+            });
+        }
+    </script>
 </head>
 <body>
     <div class="dark-icon" onclick="toggleDarkMode()" title="Toggle Dark Mode">
